@@ -1,0 +1,15 @@
+server:
+  port: 8090
+  tomcat:
+    accept-count: 100
+    max-threads: 200
+    min-spare-threads: 50
+  connection-timeout: 5000s
+spring:
+  application:
+    name: business-public
+  profiles:
+    active: dev #环境files
+
+
+

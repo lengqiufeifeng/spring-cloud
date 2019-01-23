@@ -1,0 +1,57 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8010/eureka/
+spring:
+  application:
+    name: gateway
+#  http:
+#    multipart:
+#      max-file-size: 10Mb      # Max file size，默认1M
+#      max-request-size: 20Mb   # Max request size，默认10M
+#      file-size-threshold: 1MB  # 当上传文件达到1MB的时候进行磁盘写入
+#      location: /  # 上传的临时目录
+
+server:
+  port: 8080
+zuul:
+  zuul:
+    ratelimit:
+      key-prefix: your-prefix
+      enabled: true
+      repository: REDIS
+      behind-proxy: true
+      default-policy-list: #optional - will apply unless specific policy exists
+      - limit: 10 #optional - request number limit per refresh interval window
+        quota: 1000 #optional - request time limit per refresh interval window (in seconds)
+        refresh-interval: 60 #default value (in seconds)
+        type: #optional
+        - user
+        - origin
+        - url
+      policy-list:
+        myServiceId:
+        - limit: 10 #optional - request number limit per refresh interval window
+          quota: 1000 #optional - request time limit per refresh interval window (in seconds)
+          refresh-interval: 60 #default value (in seconds)
+          type: #optional
+          - user
+          - origin
+          - url
+        - type: #optional value for each type
+          - user=anonymous
+          - origin=somemachine.com
+          - url=/api #url prefix
+  routes:
+    #    service-user:
+    #      sensitive-headers: Cookie,Set-Cookie
+    #      ignored-headers: Authorization
+    #      path: /user/**
+    #      serviceId: service-user
+    #    service-monitoring: /monitoring/**
+    baidu:
+      path: /uploadFile/**
+      url: https://www.baidu.com
+    bing:
+      path: /**
+      url: https://www.bing.com

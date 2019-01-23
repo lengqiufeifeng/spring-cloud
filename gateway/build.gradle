@@ -1,0 +1,20 @@
+
+group 'logan.example'
+version '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //使用consul作为注册中心，配置中心
+    implementation('org.springframework.cloud:spring-cloud-starter-consul-all')
+    
+    implementation('org.springframework.cloud:spring-cloud-starter-gateway')
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
+
+}

@@ -1,0 +1,91 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.5.RELEASE'
+    }
+    repositories {
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "https://plugins.gradle.org/m2/" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath ("gradle.plugin.com.arenagod.gradle:mybatis-generator-plugin:1.4")
+    }
+}
+allprojects {
+
+    repositories {
+        mavenLocal()
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        mavenCentral()
+        maven {
+            url 'https://repo.spring.io/libs-milestone'
+        }
+        maven { url "https://repo.maven.apache.org/maven2" }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+
+    }
+
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'logan.example'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = 1.8
+
+    ext {
+        springCloudVersion = 'Finchley.SR1'
+    }
+
+    dependencies {
+//        testImplementation('org.springframework.boot:spring-boot-starter-test')
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+}
+
+
+
+//编译版本
+def getGitVersion() {
+    return 'git rev-parse --short HEAD'.execute().text.trim()
+}
+//读取文件并替换字符串
+
+def fileReader(path, oldStr, newStr) {
+    def readerString = ""
+    new File(path).withReader('UTF-8') { reader ->
+        reader.eachLine {
+            if (it.find(oldStr)) {
+                it = it.replace(oldStr, newStr)
+            }
+            readerString <<= it
+            readerString << '\n'
+        }
+        return readerString
+    }
+}
+//读取文件
+
+def fileReader(path) {
+    def readerString = ""
+    return new File(path).text
+}
+//写文件
+
+def fileWrite(path, stringBuffer) {
+    new File(path).withWriter('UTF-8') {
+        within ->
+            within.append(stringBuffer)
+    }
+}

@@ -1,0 +1,26 @@
+package logan.exemple.dispatch
+
+import logan.exemple.drools.model.Address;
+import logan.exemple.drools.model.fact.AddressCheckResult;
+declare type AddressCheckResult
+    @propertyChangeSupport
+end
+
+rule "Postcode should be filled with exactly 5 numbers"
+
+    when
+        address : Address(postcode != null, postcode matches "([0-9]{5})");
+        checkResult : AddressCheckResult(postCodeResult == false);
+    then
+        checkResult.setPostCodeResult(true);
+		System.out.println("logs in rule ：check success!"+address.getPostcode());
+end
+
+rule "checkResult is true"
+
+    when
+//        address : Address(postcode != null, postcode matches "([0-9]{5})");
+        checkResult : AddressCheckResult(postCodeResult == true);
+    then
+		System.out.println("logs in rule ：check success! over");
+end

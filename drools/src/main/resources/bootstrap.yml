@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    consul:
+      discovery:
+        tags: version=1.0,author=logan
+        healthCheckPath: /actuator/health #健康检查（默认） 加入 actuator 组件
+        healthCheckInterval: 5s
+        instanceId: ${spring.application.name}:${spring.cloud.consul.discovery.ip-address}:${server.port}
+#        health-check-url: :${server.port}/healthCheck
+        prefer-ip-address: true
+        ip-address: 192.168.0.135
+      host: 192.168.85.128
+      port: 8500
+

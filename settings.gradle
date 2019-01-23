@@ -1,0 +1,10 @@
+rootProject.name = 'spring-cloud'
+include 'gateway'
+include 'zuul'
+include 'drools'
+include 'z-common'
+include 'activiti'
+include 'user-auth'
+include 'business-private'
+include 'business-public'
+

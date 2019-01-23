@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'logan.example'
+version '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+
+dependencies {
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-zuul')
+    implementation('com.marcosbarbero.cloud:spring-cloud-zuul-ratelimit:1.3.4.RELEASE')
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    implementation('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+    implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
+}

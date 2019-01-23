@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: drools_route
+        uri: lb://DROOLS
+        order: 1000
+        predicates:
+        - Path=/drools/**
+        filters:
+        - name: Hystrix
+          args:
+            name: fallbackcmd
+            fallbackUri: forward:/fallback
+      - id: requestratelimiter_route
+        uri: http://www.baidu.com
+        order: 10000
+        predicates:
+        - Path=/baidu/**
+        filters:
+        - name: RequestRateLimiter
+          args:
+            #            rate-limiter: "#{@myRateLimiter}" #使用自定义
+            redis-rate-limiter.replenishRate: 1  # 流速 每秒
+            redis-rate-limiter.burstCapacity: 3  # 容量，爆发数
+            key-resolver: "#{@myKeyResolver}" #SPEL表达式去的对应的bean
+        - StripPrefix=1
+
+

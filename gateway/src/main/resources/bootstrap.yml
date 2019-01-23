@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway
+  profiles:
+    active: dev #环境files
+  cloud: #指定数据中心，需要安装consul agent
+    consul:
+      host: 192.168.85.128
+      port: 8500
+      discovery:
+        tags: version=1.0,author=logan
+        healthCheckPath: /consul/healthCheck #健康检查
+        healthCheckInterval: 5s
+        instanceId: ${spring.application.name}:${spring.cloud.consul.discovery.ip-address}:${server.port}
+        prefer-ip-address: true
+        ip-address: 192.168.0.135
+        prefer-agent-address: true
+#        health-check-url: http://:${server.port}/healthCheck
+      config:
+        enabled: true
+        format: properties
+        data-key: data
+
+

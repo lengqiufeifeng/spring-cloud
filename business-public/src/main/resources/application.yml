@@ -1,0 +1,10 @@
+feign:
+  hystrix:
+    enabled: 'true'  #是否开启熔断器
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
